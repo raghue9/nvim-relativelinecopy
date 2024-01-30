@@ -2,9 +2,9 @@ local M = {}
 
 M.copyPasteRelativeLinePositive = function(relative_line_number)
   local current_pos = vim.api.nvim_win_get_cursor(0)
-  local current_row = current_pos[1] - 1                    -- Convert to 0-based indexing
-  local target_row = current_row + relative_line_number +
-  1                                                         -- this due to the view problem of the relative number as it iis always 1 less than the actual line number
+  local current_row = current_pos[1] - 1 -- Convert to 0-based indexing
+  local target_row = current_row + relative_line_number -
+      1                                  -- this due to the view problem of the relative number as it iis always 1 less than the actual line number
 
   if target_row >= 0 and target_row < vim.api.nvim_buf_line_count(0) then
     local line_content = vim.api.nvim_buf_get_lines(0, target_row, target_row + 1, false)[1]
@@ -15,8 +15,8 @@ end
 M.copyPasteRelativeLineNegative = function(relative_line_number)
   local current_pos = vim.api.nvim_win_get_cursor(0)
   local current_row = current_pos[1] - 1
-  local target_row = current_row - math.abs(relative_line_number) +
-  1                                                                   -- this is due to the view problem of the relative number as it iis always 1 less than the actual line number
+  local target_row = current_row - math.abs(relative_line_number) -
+      1 -- this is due to the view problem of the relative number as it iis always 1 less than the actual line number
 
   if target_row >= 0 and target_row < vim.api.nvim_buf_line_count(0) then
     local line_content = vim.api.nvim_buf_get_lines(0, target_row, target_row + 1, false)[1]
